@@ -37,6 +37,20 @@ def slope(x):
     else: return 0
 
 
+#Inefficient algorithm
+def l2_distance(dataf, df_features):
+    df_shape = dataf.shape[0]
+    df_f_shape = df_features.shape[0]
+    dist = np.zeros((df_f_shape, df_shape), dtype=float)
+    for i in range(df_shape):
+        for x in range(df_f_shape):
+            i = df_features[x:].item
+            j = np.squeeze(np.asarray(df[x]))
+            l2 = np.sqrt(np.sum(j - i) ** 2)
+            dist [x:i] = l2
+    return dist
+
+
 transform = lambda x: np.sum(np.asarray(x)) / len(x)
 
 with open('heart.csv', 'r') as f:
@@ -49,33 +63,19 @@ df['ExerciseAngina'] = df['ExerciseAngina'].apply(angina)
 df['ChestPainType'] = df['ChestPainType'].apply(pain)
 df['Sex'] = df['Sex'].apply(gender)
 df['RestingECG'] = df['RestingECG'].apply(eletrocardiogram)
-
-
 df_dp = df['HeartDisease']
 df.drop(['HeartDisease'], axis=1, inplace=True)
 df = df.apply(transform, axis=1)
+df = np.squeeze(np.asarray(df))
+
 
 #Insert Dataframes
-def L2_Distance(df, df_features):
-    dist = np.zeros((shape_df[0], (shape_df[0] * shape_df[1])), dtype=int)
-    for i in df:
-        for x in df_features:
-            
-            l2_distance = np.sqrt(np.sum(np.absolute(i - x) ** 2))
-            dist [ i :  ] = l2_distance if type(l2_distance)  == float else 0
-    return dist
-
-#dists = L2_Distance(df_dp, df)
-
+dists = l2_distance(df_dp[:10], df[:10])
 fig, (axs_1, axs_2, axs_3) = plt.subplots(3, 1)
-
 axs_1.plot(df, c=(0.132,0.71,0.255))
 axs_1.set_title('Features mean')
-
-axs_2.bar(("Quantity of dependent variables", "Features."), (df_dp.shape[0], df.shape[0]))
-
-axs_2.set_title('Quantity comparisson')
-
+axs_2.scatter(("Quantity of dependent variables", "Features."), (dists[0:,], dists[:0,]))
+axs_2.set_title('Dists Graphic')
 axs_3.scatter(df, df_dp, c=(0.2321, 0.125, 0.333), alpha=0.2)
 axs_3.set_title('Linear comparisson')
 
