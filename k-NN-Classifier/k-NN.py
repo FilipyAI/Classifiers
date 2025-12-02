@@ -42,13 +42,13 @@ def l2_distance(dataf):
     num_test = dataf.shape[0]
     dist = np.zeros(num_test, dtype=dataf.dtype)
     for i in range(num_test):
-        l2 = np.sum(np.abs(df[i,:,1] - dataf), axis=1)
+        l2 = np.sum(np.abs(df - dataf), axis=1)
         min_index = np.argmin(l2)
         dist [i] = df_dp[min_index]
     return dist
 
 
-transform = lambda x: np.sum(np.asarray(x)) / len(x)
+#transform = lambda x: np.sum(np.asarray(x)) / len(x)
 
 with open('heart.csv', 'r') as f:
     df = pd.read_csv(f)
@@ -62,16 +62,15 @@ df['Sex'] = df['Sex'].apply(gender)
 df['RestingECG'] = df['RestingECG'].apply(eletrocardiogram)
 df_dp = df['HeartDisease']
 df.drop(['HeartDisease'], axis=1, inplace=True)
-df = df.apply(transform, axis=1)
 
 #Insert Dataframes
-dists = l2_distance(df_dp[1,:])
+"""dists = l2_distance(df_dp[:])
 fig, (axs_1, axs_2, axs_3) = plt.subplots(3, 1)
 axs_1.plot(df, c=(0.132,0.71,0.255))
 axs_1.set_title('Features mean')
 axs_2.scatter(("Quantity of dependent variables", "Features."), (dists[0:,], dists[:0,]))
 axs_2.set_title('Dists Graphic')
 axs_3.scatter(df, df_dp, c=(0.2321, 0.125, 0.333), alpha=0.2)
-axs_3.set_title('Linear comparisson')
+axs_3.set_title('Linear comparisson')"""
 
 plt.show()
