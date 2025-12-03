@@ -3,6 +3,8 @@
 # LinkedIn: Filipy S. Furtado/The most beautiful guy  #
 # Instagram: sf.filipy                                #
 # Discord: furth__                                    #
+#                                                     #
+# NOT USED ANYMORE                                    #
 #######################################################
 
 import pandas as pd
