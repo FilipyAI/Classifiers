@@ -207,3 +207,4 @@ marimo/_lsp/
 __marimo__/
 k-NN/heart.csv
 k-NN/heart-failure-dataset.zip
+Linear-Classifier/dataset/
